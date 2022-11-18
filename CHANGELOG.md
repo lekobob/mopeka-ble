@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.0 (2022-11-18)
+### Feature
+* **startprocessing:** Start processing data ([`53a4561`](https://github.com/lekobob/mopeka-ble/commit/53a4561c3a457cca6afb25ff2aeff8242ce24a39))
+* **startprocessing:** Start processing data ([`1027b1c`](https://github.com/lekobob/mopeka-ble/commit/1027b1cae6030cd96734477b9bca854867b170c0))
+
 ## v0.1.0 (2022-10-31)
 ### Feature
 * Init repo ([`e309dfd`](https://github.com/lekobob/mopeka-ble/commit/e309dfd453e14b247735b72bd620ef6c8d40b430))
