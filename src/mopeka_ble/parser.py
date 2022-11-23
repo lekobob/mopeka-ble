@@ -48,9 +48,9 @@ class MopekaBluetoothDeviceData(BluetoothData):
             int(last_id).to_bytes(2, byteorder="little")
             + changed_manufacturer_data[last_id]
         )
-        msg_length = len(data)
+        """msg_length = len(data)
         if msg_length not in (20, 22):
-            return
+            return"""
         device_id = data[0]
         device_type = DEVICE_TYPES[device_id]
         name = device_type.name
