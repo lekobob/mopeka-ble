@@ -41,8 +41,10 @@ class MopekaBluetoothDeviceData(BluetoothData):
         if SERVICE_UUID not in service_info.service_uuids:
             return
         changed_manufacturer_data = self.changed_manufacturer_data(service_info)
+        _LOGGER.debug("Passed UUID check")
         if not changed_manufacturer_data:
             return
+        _LOGGER.debug("Passed Man Data check")
         last_id = list(changed_manufacturer_data)[-1]
         data = (
             int(last_id).to_bytes(2, byteorder="little")
