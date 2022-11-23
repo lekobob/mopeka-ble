@@ -37,7 +37,7 @@ class MopekaBluetoothDeviceData(BluetoothData):
 
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
-        _LOGGER.debug("Parsing Mopeka BLE advertisement data: %s", service_info)
+        _LOGGER.debug("Parsing Testing Mopeka BLE advertisement data: %s", service_info)
         if SERVICE_UUID not in service_info.service_uuids:
             return
         changed_manufacturer_data = self.changed_manufacturer_data(service_info)
