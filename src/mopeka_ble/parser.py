@@ -23,7 +23,7 @@ class MopekaDevice:
 
 
 DEVICE_TYPES = {
-    0x03: MopekaDevice("3", "Mopeka Pro Check Propane"),
+    0x59: MopekaDevice("89", "Mopeka Pro Check Propane"),
     0x04: MopekaDevice("4", "Mopeka Air Space"),
     0x05: MopekaDevice("5", "Mopeka Pro Check Water"),
 }
