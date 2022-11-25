@@ -68,5 +68,5 @@ class MopekaBluetoothDeviceData(BluetoothData):
     def _process_update(self, data: bytes) -> None:
         """Update from BLE advertisement data."""
         _LOGGER.debug(
-            "Parsing Mopka BLE advertisement data: %s Len: %d", data, len(data)
+            "Parsing Mopka BLE advertisement data: %b Len: %d", data, len(data)
         )
