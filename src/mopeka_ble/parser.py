@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from bluetooth_data_tools import short_address
 from bluetooth_sensor_state_data import BluetoothData
 from home_assistant_bluetooth import BluetoothServiceInfo
+from sensor_state_data import SensorLibrary
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -23,7 +24,7 @@ class MopekaDevice:
 
 
 DEVICE_TYPES = {
-    0x59: MopekaDevice("89", "Mopeka Pro Check Propane"),
+    0x03: MopekaDevice("89", "Mopeka Pro Check Propane"),
     0x04: MopekaDevice("4", "Mopeka Air Space"),
     0x05: MopekaDevice("5", "Mopeka Pro Check Water"),
 }
@@ -55,10 +56,10 @@ class MopekaBluetoothDeviceData(BluetoothData):
         """msg_length = len(data)
         if msg_length not in (20, 22):
             return"""
-        device_id = data[0]
+        device_id = data[2]
         device_type = DEVICE_TYPES[device_id]
         name = device_type.name
-        self.set_precision(2)
+        self.set_precision(0)
         self.set_device_type(device_id)
         self.set_title(f"{name} {short_address(service_info.address)}")
         self.set_device_name(f"{name} {short_address(service_info.address)}")
@@ -68,3 +69,7 @@ class MopekaBluetoothDeviceData(BluetoothData):
     def _process_update(self, data: bytes) -> None:
         """Update from BLE advertisement data."""
         _LOGGER.debug("Parsing Mopka BLE advertisement data:%s", data.hex())
+        if len(data) != 12:
+            return
+        quality = data[6] >> 6
+        self.update_predefined_sensor(SensorLibrary.COUNT__NONE, quality)
