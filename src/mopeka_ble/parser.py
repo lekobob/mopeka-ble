@@ -74,8 +74,12 @@ class MopekaBluetoothDeviceData(BluetoothData):
         """quality = data[6] >> 6
         self.update_predefined_sensor(SensorLibrary.COUNT__NONE, quality)"""
         self._raw_battery = data[3] & 0x7F
+        self._raw_temp = data[4] & 0x7F
         self.update_predefined_sensor(
             SensorLibrary.BATTERY__PERCENTAGE, self.BatteryPercent
+        )
+        self.update_predefined_sensor(
+            SensorLibrary.TEMPERATURE__CELSIUS, self.TemperatureInCelsius
         )
 
     @property
@@ -92,3 +96,10 @@ class MopekaBluetoothDeviceData(BluetoothData):
         if percent < 0.0:
             return 0.0
         return round(percent, 1)
+
+    @property
+    def TemperatureInCelsius(self) -> int:
+        """Temperature in Celsius
+        Note: This temperature has not been characterized against ambient temperature
+        """
+        return self._raw_temp - 40
