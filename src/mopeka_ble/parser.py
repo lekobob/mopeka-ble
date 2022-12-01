@@ -71,5 +71,7 @@ class MopekaBluetoothDeviceData(BluetoothData):
         _LOGGER.debug("Parsing Mopka BLE advertisement data:%s", data.hex())
         if len(data) != 12:
             return
-        quality = data[6] >> 6
-        self.update_predefined_sensor(SensorLibrary.COUNT__NONE, quality)
+        """quality = data[6] >> 6
+        self.update_predefined_sensor(SensorLibrary.COUNT__NONE, quality)"""
+        batt = (data[4] & 0x7F) / 32
+        self.update_predefined_sensor(SensorLibrary.BATTERY__PERCENTAGE, batt)
