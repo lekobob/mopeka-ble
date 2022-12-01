@@ -73,5 +73,22 @@ class MopekaBluetoothDeviceData(BluetoothData):
             return
         """quality = data[6] >> 6
         self.update_predefined_sensor(SensorLibrary.COUNT__NONE, quality)"""
-        batt = (data[3] & 0x7F) / 32
-        self.update_predefined_sensor(SensorLibrary.BATTERY__PERCENTAGE, batt)
+        self._raw_battery = data[3] & 0x7F
+        self.update_predefined_sensor(
+            SensorLibrary.BATTERY__PERCENTAGE, self.BatteryPercent
+        )
+
+    @property
+    def BatteryVoltage(self) -> float:
+        """Battery reading in volts"""
+        return self._raw_battery / 32.0
+
+    @property
+    def BatteryPercent(self) -> float:
+        """Battery Percentage based on 3 volt CR2032 battery"""
+        percent = ((self.BatteryVoltage - 2.2) / 0.65) * 100
+        if percent > 100.0:
+            return 100.0
+        if percent < 0.0:
+            return 0.0
+        return round(percent, 1)
