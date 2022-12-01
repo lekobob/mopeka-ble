@@ -73,5 +73,5 @@ class MopekaBluetoothDeviceData(BluetoothData):
             return
         """quality = data[6] >> 6
         self.update_predefined_sensor(SensorLibrary.COUNT__NONE, quality)"""
-        batt = (data[4] & 0x7F) / 32
+        batt = (data[3] & 0x7F) / 32
         self.update_predefined_sensor(SensorLibrary.BATTERY__PERCENTAGE, batt)
