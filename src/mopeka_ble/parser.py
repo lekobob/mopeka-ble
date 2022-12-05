@@ -12,8 +12,18 @@ from bluetooth_data_tools import short_address
 from bluetooth_sensor_state_data import BluetoothData
 from home_assistant_bluetooth import BluetoothServiceInfo
 from sensor_state_data import SensorLibrary
+from sensor_state_data.enum import StrEnum
 
 _LOGGER = logging.getLogger(__name__)
+
+
+class MopekaSensor(StrEnum):
+
+    LEVEL = "level"
+    BATTERY = "battery"
+    TEMPERATURE = "temperature"
+    QUALITY = "quality"
+    SIGNAL_STRENGTH = "signal_strength"
 
 
 @dataclass
@@ -28,6 +38,10 @@ DEVICE_TYPES = {
     0x04: MopekaDevice("4", "Mopeka Air Space"),
     0x05: MopekaDevice("5", "Mopeka Pro Check Water"),
 }
+
+# converting sensor value to height - contact Mopeka for other fluids/gases
+MOPEKA_TANK_LEVEL_COEFFICIENTS_PROPANE = (0.573045, -0.002822, -0.00000535)
+
 MFR_IDS = set(DEVICE_TYPES)
 
 SERVICE_UUID = "0000fee5-0000-1000-8000-00805f9b34fb"
@@ -75,6 +89,8 @@ class MopekaBluetoothDeviceData(BluetoothData):
         self.update_predefined_sensor(SensorLibrary.COUNT__NONE, quality)"""
         self._raw_battery = data[3] & 0x7F
         self._raw_temp = data[4] & 0x7F
+        self._raw_tank_level = ((int(data[6]) << 8) + data[5]) & 0x3FFF
+
         self.update_predefined_sensor(
             SensorLibrary.BATTERY__PERCENTAGE, self.BatteryPercent
         )
@@ -103,3 +119,19 @@ class MopekaBluetoothDeviceData(BluetoothData):
         Note: This temperature has not been characterized against ambient temperature
         """
         return self._raw_temp - 40
+
+    @property
+    def TankLevelInMM(self) -> int:
+        """The tank level/depth in mm for propane gas"""
+        return int(
+            self._raw_tank_level
+            * (
+                MOPEKA_TANK_LEVEL_COEFFICIENTS_PROPANE[0]
+                + (MOPEKA_TANK_LEVEL_COEFFICIENTS_PROPANE[1] * self._raw_temp)
+                + (
+                    MOPEKA_TANK_LEVEL_COEFFICIENTS_PROPANE[2]
+                    * self._raw_temp
+                    * self._raw_temp
+                )
+            )
+        )
