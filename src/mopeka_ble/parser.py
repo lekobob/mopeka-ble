@@ -89,6 +89,7 @@ class MopekaBluetoothDeviceData(BluetoothData):
         self._raw_battery = data[3] & 0x7F
         self._raw_temp = data[4] & 0x7F
         self._raw_tank_level = ((int(data[6]) << 8) + data[5]) & 0x3FFF
+        self.ReadingQualityStars = data[6] >> 6
         self.update_sensor(
             str(MopekaSensor.LEVEL), None, self.TankLevelInMM, None, "Level"
         )
@@ -101,6 +102,13 @@ class MopekaBluetoothDeviceData(BluetoothData):
             self.TemperatureInCelsius,
             None,
             "Temperature",
+        )
+        self.update_sensor(
+            str(MopekaSensor.QUALITY),
+            None,
+            self.ReadingQualityStars,
+            None,
+            "Quality",
         )
 
     @property
