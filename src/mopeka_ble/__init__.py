@@ -18,7 +18,7 @@ from .parser import MopekaBluetoothDeviceData
 __version__ = "0.2.0"
 
 __all__ = [
-    "MopeakSensor",
+    "MopekaSensor",
     "MopekaBluetoothDeviceData",
     "BinarySensorDeviceClass",
     "BinarySensorValue",
