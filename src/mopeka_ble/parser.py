@@ -11,7 +11,6 @@ from dataclasses import dataclass
 from bluetooth_data_tools import short_address
 from bluetooth_sensor_state_data import BluetoothData
 from home_assistant_bluetooth import BluetoothServiceInfo
-from sensor_state_data import SensorLibrary
 from sensor_state_data.enum import StrEnum
 
 _LOGGER = logging.getLogger(__name__)
@@ -34,9 +33,9 @@ class MopekaDevice:
 
 
 DEVICE_TYPES = {
-    0x03: MopekaDevice("89", "Mopeka Pro Check Propane"),
-    0x04: MopekaDevice("4", "Mopeka Air Space"),
-    0x05: MopekaDevice("5", "Mopeka Pro Check Water"),
+    0x03: MopekaDevice("Mopeka Pro Check", "Propane Tank"),
+    0x04: MopekaDevice("Mopeka Air Space", "Tank"),
+    0x05: MopekaDevice("Mopeka Pro Check Water", "Water Tank"),
 }
 
 # converting sensor value to height - contact Mopeka for other fluids/gases
@@ -74,7 +73,7 @@ class MopekaBluetoothDeviceData(BluetoothData):
         device_type = DEVICE_TYPES[device_id]
         name = device_type.name
         self.set_precision(0)
-        self.set_device_type(device_id)
+        self.set_device_type(device_type.model)
         self.set_title(f"{name} {short_address(service_info.address)}")
         self.set_device_name(f"{name} {short_address(service_info.address)}")
         self.set_device_manufacturer("Mopeka")
@@ -91,14 +90,17 @@ class MopekaBluetoothDeviceData(BluetoothData):
         self._raw_temp = data[4] & 0x7F
         self._raw_tank_level = ((int(data[6]) << 8) + data[5]) & 0x3FFF
         self.update_sensor(
-            str(MopekaSensor.LEVEL), None, self.TankLevelInMM, None, "Tank Level"
+            str(MopekaSensor.LEVEL), None, self.TankLevelInMM, None, "Level"
         )
-
-        self.update_predefined_sensor(
-            SensorLibrary.BATTERY__PERCENTAGE, self.BatteryPercent
+        self.update_sensor(
+            str(MopekaSensor.BATTERY), None, self.BatteryPercent, None, "Battery"
         )
-        self.update_predefined_sensor(
-            SensorLibrary.TEMPERATURE__CELSIUS, self.TemperatureInCelsius
+        self.update_sensor(
+            str(MopekaSensor.TEMPERATURE),
+            None,
+            self.TemperatureInCelsius,
+            None,
+            "Temperature",
         )
 
     @property
