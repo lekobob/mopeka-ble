@@ -51,8 +51,8 @@ class MopekaBluetoothDeviceData(BluetoothData):
 
     def __init__(
         self,
-        max_height: int,
-        min_height: int,
+        max_height: float = 256.0,
+        min_height: float = 38.1,
     ) -> None:
         """Initialize eight sleep class."""
         self._max_height = max_height
