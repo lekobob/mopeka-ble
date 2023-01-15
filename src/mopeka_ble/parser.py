@@ -47,14 +47,15 @@ SERVICE_UUID = "0000fee5-0000-1000-8000-00805f9b34fb"
 
 
 class MopekaBluetoothDeviceData(BluetoothData):
-    """Date update for ThermoBeacon Bluetooth devices."""
+    """Date update for Mopeka Bluetooth devices."""
 
     def __init__(
         self,
         max_height: float = 256.0,
         min_height: float = 38.1,
     ) -> None:
-        """Initialize eight sleep class."""
+        """Initialize Mopeka Bluetooth Device class."""
+        super().__init__()
         self._max_height = max_height
         self._min_height = min_height
 
