@@ -49,6 +49,15 @@ SERVICE_UUID = "0000fee5-0000-1000-8000-00805f9b34fb"
 class MopekaBluetoothDeviceData(BluetoothData):
     """Date update for ThermoBeacon Bluetooth devices."""
 
+    def __init__(
+        self,
+        max_height: int,
+        min_height: int,
+    ) -> None:
+        """Initialize eight sleep class."""
+        self._max_height = max_height
+        self._min_height = min_height
+
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
         _LOGGER.debug(
@@ -147,4 +156,11 @@ class MopekaBluetoothDeviceData(BluetoothData):
                     * self._raw_temp
                 )
             )
+        )
+
+    @property
+    def TankLevelInPercent(self) -> int:
+        return int(
+            ((self.TankLevelInMM - self._min_height) * 100.0)
+            / (self._max_height - self._min_height)
         )
