@@ -101,7 +101,7 @@ class MopekaBluetoothDeviceData(BluetoothData):
         self._raw_tank_level = ((int(data[6]) << 8) + data[5]) & 0x3FFF
         self.ReadingQualityStars = data[6] >> 6
         self.update_sensor(
-            str(MopekaSensor.LEVEL), None, self.TankLevelInMM, None, "Level"
+            str(MopekaSensor.LEVEL), None, self.TankLevelInPercent, None, "Level"
         )
         self.update_sensor(
             str(MopekaSensor.BATTERY), None, self.BatteryPercent, None, "Battery"
