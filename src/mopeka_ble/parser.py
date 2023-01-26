@@ -23,6 +23,8 @@ class MopekaSensor(StrEnum):
     TEMPERATURE = "temperature"
     QUALITY = "quality"
     SIGNAL_STRENGTH = "signal_strength"
+    X_POSITION = "x_position"
+    Y_POSITION = "y_position"
 
 
 @dataclass
@@ -61,9 +63,6 @@ class MopekaBluetoothDeviceData(BluetoothData):
 
     def _start_update(self, service_info: BluetoothServiceInfo) -> None:
         """Update from BLE advertisement data."""
-        _LOGGER.debug(
-            "Parsing Testing2 Mopeka BLE advertisement data: %s", service_info
-        )
         if SERVICE_UUID not in service_info.service_uuids:
             return
         changed_manufacturer_data = self.changed_manufacturer_data(service_info)
@@ -91,15 +90,15 @@ class MopekaBluetoothDeviceData(BluetoothData):
 
     def _process_update(self, data: bytes) -> None:
         """Update from BLE advertisement data."""
-        _LOGGER.debug("Parsing Mopka BLE advertisement data:%s", data.hex())
         if len(data) != 12:
             return
-        """quality = data[6] >> 6
-        self.update_predefined_sensor(SensorLibrary.COUNT__NONE, quality)"""
         self._raw_battery = data[3] & 0x7F
         self._raw_temp = data[4] & 0x7F
         self._raw_tank_level = ((int(data[6]) << 8) + data[5]) & 0x3FFF
         self.ReadingQualityStars = data[6] >> 6
+        self._raw_x_accel = data[10]
+        self._raw_y_accel = data[11]
+
         self.update_sensor(
             str(MopekaSensor.LEVEL), None, self.TankLevelInPercent, None, "Level"
         )
@@ -119,6 +118,20 @@ class MopekaBluetoothDeviceData(BluetoothData):
             self.ReadingQualityStars,
             None,
             "Quality",
+        )
+        self.update_sensor(
+            str(MopekaSensor.QUALITY),
+            None,
+            self.XPosition,
+            None,
+            "X Position",
+        )
+        self.update_sensor(
+            str(MopekaSensor.QUALITY),
+            None,
+            self.YPosition,
+            None,
+            "Y Position",
         )
 
     @property
@@ -165,3 +178,11 @@ class MopekaBluetoothDeviceData(BluetoothData):
             ((self.TankLevelInMM - self._min_height) * 100.0)
             / (self._max_height - self._min_height)
         )
+
+    @property
+    def XPosition(self) -> int:
+        return self._raw_x_accel
+
+    @property
+    def YPosition(self) -> int:
+        return self._raw_y_accel
