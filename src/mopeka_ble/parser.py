@@ -181,8 +181,14 @@ class MopekaBluetoothDeviceData(BluetoothData):
 
     @property
     def XPosition(self) -> int:
-        return self._raw_x_accel
+        if self._raw_x_accel > 127:
+            return (256 - self._raw_x_accel) * (-1)
+        else:
+            return self._raw_x_accel
 
     @property
     def YPosition(self) -> int:
-        return self._raw_y_accel
+        if self._raw_y_accel > 127:
+            return (256 - self._raw_y_accel) * (-1)
+        else:
+            return self._raw_y_accel
