@@ -182,9 +182,9 @@ class MopekaBluetoothDeviceData(BluetoothData):
                             ((self.TankLevelInMM - self._min_height) * 100.0)
                             / (self._max_height - self._min_height)
                         ),
-                        100,
+                        0,
                     ),
-                    0,
+                    100,
                 )
             )
         else:
