@@ -174,10 +174,21 @@ class MopekaBluetoothDeviceData(BluetoothData):
 
     @property
     def TankLevelInPercent(self) -> int:
-        return int(
-            ((self.TankLevelInMM - self._min_height) * 100.0)
-            / (self._max_height - self._min_height)
-        )
+        if self.ReadingQualityStars >= 2:
+            return int(
+                min(
+                    max(
+                        round(
+                            ((self.TankLevelInMM - self._min_height) * 100.0)
+                            / (self._max_height - self._min_height)
+                        ),
+                        100,
+                    ),
+                    0,
+                )
+            )
+        else:
+            return 0
 
     @property
     def XPosition(self) -> int:
