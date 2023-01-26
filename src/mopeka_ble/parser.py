@@ -120,14 +120,14 @@ class MopekaBluetoothDeviceData(BluetoothData):
             "Quality",
         )
         self.update_sensor(
-            str(MopekaSensor.QUALITY),
+            str(MopekaSensor.X_POSITION),
             None,
             self.XPosition,
             None,
             "X Position",
         )
         self.update_sensor(
-            str(MopekaSensor.QUALITY),
+            str(MopekaSensor.Y_POSITION),
             None,
             self.YPosition,
             None,
