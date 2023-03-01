@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.1 (2023-03-01)
+### Fix
+* **deps:** Update dependency myst-parser to ^0.19 ([`b31f663`](https://github.com/lekobob/mopeka-ble/commit/b31f663607059f825cc853b7bbaff3c8bd98c792))
+
 ## v0.2.0 (2022-11-18)
 ### Feature
 * **startprocessing:** Start processing data ([`53a4561`](https://github.com/lekobob/mopeka-ble/commit/53a4561c3a457cca6afb25ff2aeff8242ce24a39))
