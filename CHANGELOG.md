@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.2 (2023-03-15)
+### Fix
+* **deps:** Update sphinx packages ([`4e04200`](https://github.com/lekobob/mopeka-ble/commit/4e04200a9631f542a8e2d0075f0dff92dbbee927))
+
 ## v0.2.1 (2023-03-01)
 ### Fix
 * **deps:** Update dependency myst-parser to ^0.19 ([`b31f663`](https://github.com/lekobob/mopeka-ble/commit/b31f663607059f825cc853b7bbaff3c8bd98c792))
