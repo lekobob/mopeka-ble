@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.3 (2023-03-16)
+### Fix
+* **deps:** Update dependency bluetooth-sensor-state-data to v1.6.1 ([`b3bb034`](https://github.com/lekobob/mopeka-ble/commit/b3bb034296e0a904bf9b6f02ff25a3d0cd5c143a))
+
 ## v0.2.2 (2023-03-15)
 ### Fix
 * **deps:** Update sphinx packages ([`4e04200`](https://github.com/lekobob/mopeka-ble/commit/4e04200a9631f542a8e2d0075f0dff92dbbee927))
