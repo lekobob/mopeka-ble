@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.5 (2023-03-18)
+### Fix
+* **deps:** Update dependency sensor-state-data to v2.14.0 ([`69ca49d`](https://github.com/lekobob/mopeka-ble/commit/69ca49d21b09d075d1d06f994b1aed056b5a8a4d))
+
 ## v0.2.4 (2023-03-16)
 ### Fix
 * **deps:** Update dependency bluetooth-data-tools to v0.3.1 ([`1071742`](https://github.com/lekobob/mopeka-ble/commit/107174241809f7f4aafe649b75e4d45f9a3a96c9))
